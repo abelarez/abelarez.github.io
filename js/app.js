@@ -89,7 +89,45 @@ async function setup() {
     // (Optional) Connect MIDI inputs
     makeMIDIKeyboard(device);
 
-    // código vindo do gemini. implementa uma nova forma de fazer resume ao audio
+// novo código do gemini para forçar o webaudio a acordar, tocando um som gerado pelo telefone
+// Dentro da função setup(), substitui o bloco do onclick por isto:
+// O Chrome e o Safari são mais picuinhas: eles por vezes precisam que o context.resume() seja acompanhado por um som real para "validar" que o utilizador quer mesmo ouvir áudio.
+
+No teu app.js, dentro do onclick (ou pointerdown), adiciona este "Beep Fantasma":
+
+const startAudio = () => {
+    if (context.state === 'suspended') {
+        context.resume().then(() => {
+            // 1. O "Beep Fantasma" para o Chrome/Safari Mobile
+            const osc = context.createOscillator();
+            const g = context.createGain();
+            g.gain.value = 0.0001; 
+            osc.connect(g);
+            g.connect(context.destination);
+            osc.start(0);
+            osc.stop(0.1);
+
+            console.log("🔈 Áudio Context Ativado e Forçado!");
+
+            // 2. Iniciar o transporte do RNBO se existir
+            if (device && device.transport) {
+                device.transport.start();
+            }
+
+            // 3. Remover os listeners para não repetir o beep em cada clique
+            document.body.removeEventListener("pointerdown", startAudio);
+            document.body.removeEventListener("touchstart", startAudio);
+        });
+    }
+};
+
+document.body.addEventListener("pointerdown", startAudio);
+document.body.addEventListener("touchstart", startAudio); // Garante suporte total a mobile
+
+
+
+    // código que já funcionou
+   /*  // código vindo do gemini. implementa uma nova forma de fazer resume ao audio
     // Em muitos telemóveis, o evento click tem um pequeno atraso ou pode não ser interpretado como uma "interação genuína do utilizador" para desbloquear áudio.
     // O que alterar: Tenta usar pointerdown ou touchstart, que são disparados instantaneamente no toque.
 
@@ -110,7 +148,7 @@ async function setup() {
     document.body.onclick = () => {
         context.resume();
     }
-
+ */
     // Skip if you're not using guardrails.js
     if (typeof guardrails === "function")
         guardrails();
