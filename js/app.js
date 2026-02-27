@@ -93,7 +93,7 @@ async function setup() {
 // Dentro da função setup(), substitui o bloco do onclick por isto:
 // O Chrome e o Safari são mais picuinhas: eles por vezes precisam que o context.resume() seja acompanhado por um som real para "validar" que o utilizador quer mesmo ouvir áudio.
 
-No teu app.js, dentro do onclick (ou pointerdown), adiciona este "Beep Fantasma":
+// No teu app.js, dentro do onclick (ou pointerdown), adiciona este "Beep Fantasma":
 
 const startAudio = () => {
     if (context.state === 'suspended') {
