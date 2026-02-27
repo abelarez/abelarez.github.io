@@ -95,7 +95,7 @@ async function setup() {
 
 // No teu app.js, dentro do onclick (ou pointerdown), adiciona este "Beep Fantasma":
 
-const startAudio = () => {
+/* const startAudio = () => {
     if (context.state === 'suspended') {
         context.resume().then(() => {
             // 1. O "Beep Fantasma" para o Chrome/Safari Mobile
@@ -122,12 +122,12 @@ const startAudio = () => {
 };
 
 document.body.addEventListener("pointerdown", startAudio);
-document.body.addEventListener("touchstart", startAudio); // Garante suporte total a mobile
+document.body.addEventListener("touchstart", startAudio); // Garante suporte total a mobile */
 
 
 
-    // código que já funcionou
-   /*  // código vindo do gemini. implementa uma nova forma de fazer resume ao audio
+  
+    // código vindo do gemini. implementa uma nova forma de fazer resume ao audio
     // Em muitos telemóveis, o evento click tem um pequeno atraso ou pode não ser interpretado como uma "interação genuína do utilizador" para desbloquear áudio.
     // O que alterar: Tenta usar pointerdown ou touchstart, que são disparados instantaneamente no toque.
 
@@ -148,7 +148,7 @@ document.body.addEventListener("touchstart", startAudio); // Garante suporte tot
     document.body.onclick = () => {
         context.resume();
     }
- */
+
     // Skip if you're not using guardrails.js
     if (typeof guardrails === "function")
         guardrails();
