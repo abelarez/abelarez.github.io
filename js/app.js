@@ -89,6 +89,24 @@ async function setup() {
     // (Optional) Connect MIDI inputs
     makeMIDIKeyboard(device);
 
+    // código vindo do gemini. implementa uma nova forma de fazer resume ao audio
+    // Em muitos telemóveis, o evento click tem um pequeno atraso ou pode não ser interpretado como uma "interação genuína do utilizador" para desbloquear áudio.
+    // O que alterar: Tenta usar pointerdown ou touchstart, que são disparados instantaneamente no toque.
+
+    const resumeAudio = () => {
+        if (context.state === 'suspended') {
+            context.resume().then(() => {
+                console.log("Áudio desbloqueado no telemóvel!");
+            });
+        }
+    };
+
+    document.body.addEventListener("pointerdown", resumeAudio);
+    document.body.addEventListener("touchstart", resumeAudio);
+
+
+
+    // código original do onclick
     document.body.onclick = () => {
         context.resume();
     }
